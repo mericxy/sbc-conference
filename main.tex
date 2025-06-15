@@ -1,0 +1,121 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}
+
+\usepackage{graphicx,url}
+\usepackage[utf8]{inputenc}  % Required by sbc-template
+\usepackage[brazil]{babel}   % For Portuguese language features and text
+\usepackage{amsmath,amssymb,amsfonts} % For mathematical symbols
+\usepackage{booktabs}        % For professional quality tables
+
+\sloppy % Helps with line breaking
+
+\title{Análise de Desempenho Acadêmico Utilizando Machine Learning}
+
+\author{Márcio Éric Lamêgo Valente\inst{1} \and José Santo de Moura Neto\inst{2}}
+
+\address{
+  \inst{2}Curso de Engenharia de Software \\
+  Instituto de Ciências Exatas e Tecnologia (ICET) \\
+  Universidade Federal do Amazonas (UFAM) \\
+  Itacoatiara, AM, Brasil \\
+  \email{marcio.valente@ufam.edu.br\inst{1},  jose-santo.moura@ufam.edu.br\inst{2}} % Placeholder emails
+  % Replace with actual emails. sbc-template should format this.
+}
+
+% \date{2025} % sbc-template usually handles date or it's omitted for conference papers
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Technological advances in recent decades have revolutionized several areas of knowledge, and Artificial Intelligence (AI) stands out as one of the main driving forces of this transformation. Within this field, Machine Learning (ML) emerges as one of the most promising subareas, allowing systems to learn from data, identify patterns, and make predictions. In the educational context, ML has been applied to improve the quality of teaching and the student experience, such as predicting academic performance and identifying students at risk of dropping out. This article proposes the development of predictive models using ML to analyze academic performance in universities. By identifying patterns and predicting students' future success or difficulties, the project seeks to provide a basis for personalized interventions, improving the effectiveness of educational strategies and increasing academic success rates. The application of ML in education not only improves student retention but also contributes to the optimization of institutional resources.
+\end{abstract}
+
+\begin{resumo}
+O avanço tecnológico nas últimas décadas tem revolucionado diversas áreas do conhecimento, e a Inteligência Artificial (IA) se destaca como uma das principais forças motrizes dessa transformação. Dentro desse campo, o Machine Learning (ML) emerge como uma das subáreas mais promissoras, permitindo que sistemas aprendam com dados, identifiquem padrões e façam previsões. No contexto educacional, o ML tem sido aplicado para melhorar a qualidade do ensino e a experiência dos estudantes, como na predição do desempenho acadêmico e na identificação de estudantes em risco de evasão. Este artigo propõe o desenvolvimento de modelos preditivos utilizando ML para analisar o desempenho acadêmico em universidades. Ao identificar padrões e prever o sucesso ou dificuldades futuras dos estudantes, o projeto busca fornecer uma base para intervenções personalizadas, aprimorando a eficácia das estratégias educacionais e aumentando as taxas de sucesso acadêmico. A aplicação de ML na educação não apenas melhora a retenção de alunos, mas também contribui para a otimização de recursos institucionais.
+\end{resumo}
+
+% --- Corpo do Trabalho ---
+\section{Introdução}
+
+\subsection{Tema}
+O avanço tecnológico nas últimas décadas tem revolucionado diversas áreas do conhecimento, e a Inteligência Artificial (IA) se destaca como uma das principais forças motrizes dessa transformação. A IA, definida como a capacidade de máquinas simularem inteligência humana para realizar tarefas complexas, tem sido aplicada em setores como saúde, finanças, transporte e, mais recentemente, na educação \cite{RussellNorvig2016}.
+
+Dentro desse campo, o Machine Learning (ML) emerge como uma das subáreas mais promissoras, permitindo que sistemas aprendam com dados, identifiquem padrões e façam previsões sem serem explicitamente programados para cada tarefa \cite{Mitchell1997}. O ML é baseado em algoritmos que podem ser supervisionados, não supervisionados ou de reforço, dependendo da natureza do problema a ser resolvido. Em problemas supervisionados, o modelo é treinado com dados rotulados, enquanto em problemas não supervisionados, o sistema identifica padrões sem rótulos prévios. Já o aprendizado por reforço envolve a interação do sistema com um ambiente, onde ele aprende a tomar decisões com base em recompensas e penalidades \cite{Goodfellow2016}. Essas técnicas têm sido amplamente utilizadas para prever comportamentos, otimizar processos e tomar decisões baseadas em dados, tornando-se uma ferramenta essencial para organizações que buscam inovação e eficiência.
+
+\subsection{Problema}
+No contexto educacional, o ML tem sido aplicado para melhorar a qualidade do ensino e a experiência dos estudantes. Por exemplo, algoritmos de ML podem prever o desempenho acadêmico, identificar estudantes em risco de evasão e personalizar o aprendizado de acordo com as necessidades individuais dos alunos \cite{FilhoVinutoLeal2020}. \cite{Kantorski2016} demonstraram a eficácia do ML ao prever a evasão em uma instituição pública de ensino superior, alcançando uma acurácia impressionante de 98\%. Além disso, \cite{Bastos2024} utilizaram técnicas de Mineração de Dados Educacionais (EDM) para analisar fatores críticos de evasão na Universidade Federal do Sul da Bahia (UFSB), destacando a importância do tempo de permanência e do coeficiente de rendimento (CR) como preditores significativos.
+
+Este artigo propõe o desenvolvimento de modelos preditivos utilizando ML para analisar o desempenho acadêmico em universidades. Ao identificar padrões e prever o sucesso ou dificuldades futuras dos estudantes, o projeto busca fornecer uma base para intervenções personalizadas, aprimorando a eficácia das estratégias educacionais e aumentando as taxas de sucesso acadêmico. A aplicação de ML na educação não apenas melhora a retenção de alunos, mas também contribui para a otimização de recursos institucionais, permitindo que universidades direcionem esforços de forma mais eficiente e estratégica.
+
+\subsection{Objetivos}
+
+\subsubsection{Objetivo Geral}
+Desenvolver um modelo preditivo utilizando técnicas de Machine Learning para analisar o desempenho acadêmico dos alunos, com o intuito de identificar padrões de desempenho, prever resultados futuros e propor intervenções personalizadas para melhorar o rendimento dos estudantes.
+
+\subsubsection{Objetivos Específicos}
+\begin{itemize}
+    \item Pesquisar algoritmos e ferramentas de Machine Learning adequados para a análise de dados acadêmicos.
+    \item Avaliar a eficácia de diferentes modelos preditivos de Machine Learning aplicados aos dados coletados.
+    \item Propor intervenções pedagógicas baseadas nos resultados do modelo preditivo para melhorar o desempenho acadêmico dos alunos.
+\end{itemize}
+
+\subsection{Justificativa}
+A evasão e o baixo desempenho acadêmico são desafios significativos enfrentados pelas instituições de ensino superior no Brasil. Com o crescimento do volume de dados educacionais, surgem oportunidades para utilizar técnicas de Machine Learning na análise e previsão do rendimento dos estudantes. Essas ferramentas permitem identificar padrões de comportamento e desempenho, possibilitando ações preventivas e intervenções pedagógicas mais eficazes. Assim, este projeto se justifica pela necessidade de soluções inovadoras que contribuam para a melhoria da qualidade do ensino e para o aumento da permanência e do sucesso acadêmico dos alunos.
+
+\section{Referencial Teórico}
+A aplicação de técnicas de Inteligência Artificial (IA), especialmente o Machine Learning (ML), na área da educação tem ganhado destaque nos últimos anos. ML pode ser definido como um conjunto de algoritmos que permitem que sistemas aprendam a partir de dados históricos para realizar previsões ou tomar decisões com o mínimo de intervenção humana \cite{Mitchell1997, Goodfellow2016}. Dentre as abordagens mais comuns no contexto educacional estão os algoritmos de classificação (como árvores de decisão, SVM e redes neurais) e de regressão.
+
+A área conhecida como Mineração de Dados Educacionais (Educational Data Mining – EDM) é responsável por investigar padrões ocultos em grandes volumes de dados educacionais com o objetivo de melhorar os processos de ensino e aprendizagem \cite{FilhoVinutoLeal2020}. Diversos estudos demonstram a eficácia de modelos preditivos na identificação de estudantes em risco de evasão \cite{Kantorski2016, Bastos2024}, na previsão de desempenho acadêmico \cite{FernandezGarcia2021} e na proposição de intervenções pedagógicas mais eficazes \cite{Najera2018}.
+
+A literatura também destaca a importância da integração de variáveis socioeconômicas, comportamentais e acadêmicas na construção de modelos robustos de predição \cite{Matz2023}. Tais variáveis ampliam a compreensão do contexto individual do aluno, promovendo ações educacionais mais precisas e inclusivas. Em um estudo realizado na Universidade Federal do Sul da Bahia, por exemplo, o tempo de permanência no curso e o coeficiente de rendimento foram destacados como fatores preditivos significativos de evasão \cite{Bastos2024}.
+
+Adicionalmente, iniciativas como as de \cite{Bakker2023} e \cite{Cabrera2023} demonstram que modelos preditivos baseados em IA podem alcançar altos níveis de precisão na previsão de desempenho acadêmico, mesmo em populações com características diversas, como estudantes autistas ou de educação a distância.
+
+Por fim, a combinação de revisões sistemáticas da literatura \cite{KitchenhamCharters2007, PetticrewRoberts2008} e métodos empíricos baseados em dados reais consolida o uso do ML como ferramenta científica na educação, promovendo um ciclo contínuo de melhoria baseado em evidências.
+
+\section{Metodologia}
+A metodologia será dividida em quatro etapas principais:
+
+\subsection{Etapa 1 – Pesquisa de Algoritmos de ML para Análise Acadêmica}
+A primeira etapa envolverá a revisão das técnicas e ferramentas de Machine Learning (ML) disponíveis, com foco em algoritmos de classificação e regressão que possam ser aplicados à análise de desempenho acadêmico. A pesquisa será conduzida utilizando fontes acadêmicas como IEEE, ACM e Google Scholar, com o objetivo de identificar as melhores práticas e as abordagens mais promissoras para a criação do modelo preditivo.
+
+\subsection{Etapa 2 – Coleta e Pré-processamento dos Dados Acadêmicos}
+Nesta etapa, serão utilizados dados acadêmicos obtidos a partir de uma base pública disponível no Kaggle, contendo informações como notas, frequência, participação em atividades extracurriculares, entre outros. O pré-processamento dos dados incluirá a limpeza, normalização e transformação dos dados para garantir a qualidade e a consistência necessárias para a análise. Serão definidos os atributos que melhor representam o desempenho acadêmico e que possam ser usados para a construção do modelo preditivo.
+
+\subsection{Etapa 3 – Desenvolvimento e Avaliação dos Modelos Preditivos}
+Utilizando os algoritmos de ML selecionados, serão gerados modelos preditivos para analisar o desempenho acadêmico dos alunos. Os modelos serão treinados e testados com os dados pré-processados, e sua acurácia será avaliada por meio de métricas como precisão, recall e F1-score. A avaliação também considerará a capacidade dos modelos de prever corretamente os alunos em risco de baixo desempenho.
+
+\subsection{Etapa 4 – Propostas de Intervenções Pedagógicas Baseadas nos Resultados dos Modelos}
+Após a comparação e seleção do modelo mais eficaz, serão propostas intervenções pedagógicas baseadas nos resultados obtidos. Essas intervenções poderão incluir tutorias personalizadas, ajustes no currículo e outras estratégias voltadas para os alunos identificados como de maior risco. O objetivo é melhorar o desempenho acadêmico geral e aumentar as taxas de sucesso dos alunos na UFAM.
+
+\section{Cronograma}
+O cronograma estimado para a execução do projeto é apresentado na Tabela~\ref{tab:cronograma}.
+\clearpage
+\begin{table}[h!]
+\centering
+\caption{Cronograma das Etapas do Projeto.}
+\label{tab:cronograma}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+\textbf{Etapa} & \textbf{Início} & \textbf{Término} \\
+\midrule
+Pré-processamento dos dados & 20/05/2025 & 20/06/2025 \\
+Geração e avaliação dos modelos preditivos & 20/05/2025 & 20/06/2025 \\
+Comparação dos classificadores de Machine Learning & 20/06/2025 & 20/07/2025 \\
+Apuração de resultados e inferências finais & 20/06/2025 & 20/07/2025 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Resultados}
+
+
+
+% --- Referências Bibliográficas ---
+\renewcommand{\refname}{Referências}
+\bibliographystyle{sbc}
+\bibliography{sbc-template}
+\end{document}
