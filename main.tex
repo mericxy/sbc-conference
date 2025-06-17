@@ -7,6 +7,9 @@
 \usepackage[brazil]{babel}   % For Portuguese language features and text
 \usepackage{amsmath,amssymb,amsfonts} % For mathematical symbols
 \usepackage{booktabs}        % For professional quality tables
+\usepackage{xcolor}          % Required for custom colors
+\definecolor{lightgray}{gray}{0.9} % Defines a light gray color
+\newcommand{\code}[1]{\colorbox{lightgray}{\texttt{#1}}} % Creates the \code command
 
 \sloppy % Helps with line breaking
 
@@ -144,13 +147,13 @@ A etapa inicial consistiu no pré-processamento e na engenharia de atributos par
 Após esta etapa, foi aplicado um método de seleção de atributos, o \texttt{SelectKBest} com o teste ANOVA F-test, para identificar as 25 variáveis mais relevantes para o modelo, otimizando o processo de treinamento e reduzindo ruídos.
 
 \subsubsection{Desenvolvimento e Avaliação dos Modelos}
-Foram treinados e avaliados seis algoritmos de Machine Learning distintos, incluindo abordagens baseadas em árvores (Random Forest, Gradient Boosting, XGBoost, Extra Trees) e outros métodos clássicos (Regressão Logística, SVM). A Tabela~\ref{tab:modelos} apresenta os resultados comparativos de acurácia, área sob a curva ROC (ROC-AUC) e F1-Score para cada modelo em sua versão inicial.
+Foram treinados e avaliados seis algoritmos de Machine Learning distintos, incluindo abordagens baseadas em árvores (Random Forest, Gradient Boosting, XGBoost, Extra Trees) e outros métodos clássicos (Regressão Logística, SVM). A Tabela~\ref{tab:modelos} apresenta os resultados comparativos de acurácia, área sob a curva ROC (ROC-AUC) e F1-Score para cada modelo em sua versão inicial. O desempenho dos modelos também pode ser visualizado na Figura~\ref{fig:comparacao_modelos}.
 
 % --- Inserir aqui um possível gráfico comparando as métricas dos modelos ---
 % Exemplo de comentário:
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1.0\textwidth]{images/comparacao_modelos.jpg}
+\includegraphics[width=1.07\textwidth]{images/comparacao_modelos.jpg}
 \caption{Comparativo de Acurácia e F1-Score entre os modelos.}
 \label{fig:comparacao_modelos}
 \end{figure}
@@ -176,7 +179,7 @@ SVM                & 0.7198 & 0.8913 & 0.7342 & 0.7398 (±0.0125) \\
 Os modelos XGBoost e Gradient Boosting, que apresentaram os melhores resultados iniciais, foram submetidos a um processo de otimização de hiperparâmetros utilizando \texttt{GridSearchCV}. O modelo XGBoost otimizado alcançou uma acurácia de \textbf{0.7774}. Adicionalmente, um modelo de ensemble, combinando os três melhores classificadores via \texttt{VotingClassifier}, foi construído, atingindo uma acurácia de 0.7763.
 
 \subsubsection{Análise do Modelo Final}
-O modelo \textbf{XGBoost Otimizado} foi selecionado como o melhor preditor. O relatório de classificação detalhado (Tabela~\ref{tab:class_report}) revela uma alta capacidade de predição para as classes "Graduate" (recall de 92\%) e "Dropout" (recall de 76\%). No entanto, o modelo apresentou dificuldade em identificar corretamente os alunos da classe "Enrolled", com um recall de apenas 41\%.
+O modelo \textbf{XGBoost Otimizado} foi selecionado como o melhor preditor. O relatório de classificação detalhado, apresentado na Tabela~\ref{tab:class_report}, revela uma alta capacidade de predição para as classes "Graduate" (recall de 92\%) e "Dropout" (recall de 76\%). No entanto, o modelo apresentou dificuldade em identificar corretamente os alunos da classe "Enrolled", com um recall de apenas 41\%. A Figura~\ref{fig:matriz_confusao} ilustra a matriz de confusão do modelo, onde é possível observar visualmente esses acertos e erros.
 
 \begin{table}[h!]
 \centering
@@ -197,6 +200,8 @@ Graduate   & 0.81 & 0.92 & 0.86 & 442 \\
 \end{tabular}
 \end{table}
 
+\clearpage
+
 % --- Inserir aqui a figura da Matriz de Confusão ---
 % Exemplo de comentário:
 \begin{figure}[h!]
@@ -205,15 +210,14 @@ Graduate   & 0.81 & 0.92 & 0.86 & 442 \\
 \caption{Matriz de Confusão do modelo XGBoost Otimizado.}
 \label{fig:matriz_confusao}
 \end{figure}
-\clearpage
 
-A análise de importância dos atributos revelou que a variável \texttt{approval\_rate} (taxa de aprovação) é, de longe, o fator mais preditivo, com um peso de 0.37, seguida por \texttt{Tuition fees up to date} (mensalidades em dia) e \texttt{Curricular units 2nd sem (approved)} (unidades aprovadas no 2º semestre). Isso indica que o desempenho acadêmico contínuo e a situação financeira do aluno são determinantes para seu percurso na universidade.
+A análise de importância dos atributos revelou que a variável \texttt{approval\_rate} (taxa de aprovação) é, de longe, o fator mais preditivo, com um peso de 0.37, seguida por \texttt{Tuition fees up to date} (mensalidades em dia) e \texttt{Curricular units 2nd sem (approved)} (unidades aprovadas no 2º semestre), conforme destacado na Figura~\ref{fig:feature_importance}. Isso indica que o desempenho acadêmico contínuo e a situação financeira do aluno são determinantes para seu percurso na universidade.
 
 % --- Inserir aqui a figura de Importância das Features ---
 % Exemplo de comentário:
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.8\textwidth]{images/feature_importance.jpg}
+\includegraphics[width=1.0\textwidth]{images/feature_importance.jpg}
 \caption{As 10 features mais importantes segundo o modelo XGBoost.}
 \label{fig:feature_importance}
 \end{figure}
