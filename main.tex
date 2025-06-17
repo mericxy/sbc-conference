@@ -130,6 +130,107 @@ Os critérios de seleção (Tabela 4 no documento original) foram aplicados em d
 
 A extração de dados classificou informações da publicação e dados temáticos. Em relação às questões de pesquisa, 66,7\% dos artigos abordaram a aplicação de técnicas de ML para prever evasão escolar e o uso de dados acadêmicos para predição, enquanto 33,3\% abordaram o desenvolvimento de ferramentas ou sistemas baseados em IA para mitigar a evasão.
 
+% ... (continuação da seção de Resultados anterior) ...
+
+\subsection{Execução do Experimento de Classificação (Etapas 2 e 3)}
+Para dar seguimento aos objetivos propostos, foi conduzido um experimento prático utilizando uma base de dados pública do Kaggle, contendo 4424 registros e 35 variáveis sobre o desempenho de estudantes. O problema foi modelado como uma tarefa de classificação multiclasse, com o objetivo de prever se um aluno se enquadraria em uma das três categorias: \textbf{Evasão} (Dropout), \textbf{Graduado} (Graduate) ou \textbf{Matriculado} (Enrolled).
+
+\subsubsection{Pré-processamento e Engenharia de Atributos}
+A etapa inicial consistiu no pré-processamento e na engenharia de atributos para enriquecer o conjunto de dados. Duas novas variáveis foram criadas para capturar de forma mais direta o desempenho acadêmico:
+\begin{itemize}
+    \item \texttt{total\_approved\_units}: A soma de todas as unidades curriculares em que o aluno foi aprovado.
+    \item \texttt{approval\_rate}: A taxa de aprovação, calculada como a razão entre as unidades aprovadas e as unidades matriculadas.
+\end{itemize}
+Após esta etapa, foi aplicado um método de seleção de atributos, o \texttt{SelectKBest} com o teste ANOVA F-test, para identificar as 25 variáveis mais relevantes para o modelo, otimizando o processo de treinamento e reduzindo ruídos.
+
+\subsubsection{Desenvolvimento e Avaliação dos Modelos}
+Foram treinados e avaliados seis algoritmos de Machine Learning distintos, incluindo abordagens baseadas em árvores (Random Forest, Gradient Boosting, XGBoost, Extra Trees) e outros métodos clássicos (Regressão Logística, SVM). A Tabela~\ref{tab:modelos} apresenta os resultados comparativos de acurácia, área sob a curva ROC (ROC-AUC) e F1-Score para cada modelo em sua versão inicial.
+
+% --- Inserir aqui um possível gráfico comparando as métricas dos modelos ---
+% Exemplo de comentário:
+\begin{figure}[h!]
+\centering
+\includegraphics[width=1.0\textwidth]{images/comparacao_modelos.jpg}
+\caption{Comparativo de Acurácia e F1-Score entre os modelos.}
+\label{fig:comparacao_modelos}
+\end{figure}
+
+\begin{table}[h!]
+\centering
+\caption{Métricas de desempenho dos modelos de classificação.}
+\label{tab:modelos}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Modelo} & \textbf{Acurácia} & \textbf{ROC-AUC} & \textbf{F1-Score} & \textbf{CV Score (± std)} \\
+\midrule
+Random Forest      & 0.7593 & 0.9047 & 0.7654 & 0.7544 (±0.0063) \\
+Gradient Boosting  & 0.7661 & 0.8995 & 0.7579 & 0.7624 (±0.0068) \\
+\textbf{XGBoost}   & \textbf{0.7740} & \textbf{0.9043} & \textbf{0.7661} & \textbf{0.7660 (±0.0086)} \\
+Extra Trees        & 0.7277 & 0.9005 & 0.7414 & 0.7485 (±0.0087) \\
+Regressão Logística & 0.7503 & 0.8866 & 0.7474 & 0.7598 (±0.0133) \\
+SVM                & 0.7198 & 0.8913 & 0.7342 & 0.7398 (±0.0125) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Os modelos XGBoost e Gradient Boosting, que apresentaram os melhores resultados iniciais, foram submetidos a um processo de otimização de hiperparâmetros utilizando \texttt{GridSearchCV}. O modelo XGBoost otimizado alcançou uma acurácia de \textbf{0.7774}. Adicionalmente, um modelo de ensemble, combinando os três melhores classificadores via \texttt{VotingClassifier}, foi construído, atingindo uma acurácia de 0.7763.
+
+\subsubsection{Análise do Modelo Final}
+O modelo \textbf{XGBoost Otimizado} foi selecionado como o melhor preditor. O relatório de classificação detalhado (Tabela~\ref{tab:class_report}) revela uma alta capacidade de predição para as classes "Graduate" (recall de 92\%) e "Dropout" (recall de 76\%). No entanto, o modelo apresentou dificuldade em identificar corretamente os alunos da classe "Enrolled", com um recall de apenas 41\%.
+
+\begin{table}[h!]
+\centering
+\caption{Relatório de Classificação do Modelo XGBoost Otimizado.}
+\label{tab:class_report}
+\begin{tabular}{lrrrr}
+\toprule
+\textbf{Classe} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+\midrule
+Dropout    & 0.82 & 0.76 & 0.79 & 284 \\
+Enrolled   & 0.55 & 0.41 & 0.47 & 159 \\
+Graduate   & 0.81 & 0.92 & 0.86 & 442 \\
+\midrule
+\textbf{Accuracy} & & & \textbf{0.78} & \textbf{885} \\
+\textbf{Macro Avg} & 0.73 & 0.70 & 0.71 & 885 \\
+\textbf{Weighted Avg} & 0.77 & 0.78 & 0.77 & 885 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% --- Inserir aqui a figura da Matriz de Confusão ---
+% Exemplo de comentário:
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.6\textwidth]{images/matriz_confusao.jpg}
+\caption{Matriz de Confusão do modelo XGBoost Otimizado.}
+\label{fig:matriz_confusao}
+\end{figure}
+\clearpage
+
+A análise de importância dos atributos revelou que a variável \texttt{approval\_rate} (taxa de aprovação) é, de longe, o fator mais preditivo, com um peso de 0.37, seguida por \texttt{Tuition fees up to date} (mensalidades em dia) e \texttt{Curricular units 2nd sem (approved)} (unidades aprovadas no 2º semestre). Isso indica que o desempenho acadêmico contínuo e a situação financeira do aluno são determinantes para seu percurso na universidade.
+
+% --- Inserir aqui a figura de Importância das Features ---
+% Exemplo de comentário:
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.8\textwidth]{images/feature_importance.jpg}
+\caption{As 10 features mais importantes segundo o modelo XGBoost.}
+\label{fig:feature_importance}
+\end{figure}
+
+
+\section{Conclusão}
+Este trabalho demonstrou a viabilidade e a eficácia da aplicação de técnicas de Machine Learning para a análise e predição do desempenho acadêmico em instituições de ensino superior. O objetivo de desenvolver um modelo preditivo para identificar padrões e prever resultados futuros foi alcançado com sucesso.
+
+O modelo final, baseado no algoritmo XGBoost, atingiu uma acurácia geral de aproximadamente 78\%, mostrando-se particularmente robusto na identificação de alunos com alta probabilidade de se graduarem (recall de 92\%) e daqueles em risco iminente de evasão (recall de 76\%). Estes resultados são promissores e fornecem uma base sólida para a implementação de ações preventivas.
+
+A principal descoberta deste estudo reside na identificação dos fatores de maior impacto no percurso acadêmico. A "taxa de aprovação" (\texttt{approval\_rate}) emergiu como o preditor mais significativo, reforçando que o acompanhamento contínuo do rendimento do aluno é fundamental. Além disso, fatores como a regularidade no pagamento das mensalidades (\texttt{Tuition fees up to date}) e o número de unidades curriculares aprovadas no semestre anterior também se mostraram cruciais.
+
+A principal limitação do modelo foi a baixa capacidade de prever com precisão a classe "Matriculado" (Enrolled). Isso sugere que este é um estado mais transitório e complexo, cujos fatores determinantes podem não ter sido totalmente capturados pelas variáveis disponíveis.
+
+Com base nos resultados, as intervenções pedagógicas propostas na Etapa 4 podem ser direcionadas com maior precisão. Alunos que apresentem uma queda na taxa de aprovação podem ser rapidamente identificados e direcionados para programas de tutoria e reforço acadêmico. Da mesma forma, a importância do fator financeiro aponta para a necessidade de políticas de auxílio e suporte ao estudante.
+
+Como trabalhos futuros, sugere-se a incorporação de novas fontes de dados, como informações comportamentais do ambiente virtual de aprendizagem (AVA) ou dados socioeconômicos mais detalhados, para aprimorar a predição da classe "Matriculado". Adicionalmente, a implementação deste modelo como uma ferramenta piloto no ambiente da universidade permitiria validar sua eficácia em um cenário real e refinar continuamente suas previsões, contribuindo para a redução das taxas de evasão e o aumento do sucesso acadêmico.
 % --- Referências Bibliográficas ---
 \renewcommand{\refname}{Referências}
 \bibliographystyle{sbc}
